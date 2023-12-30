@@ -16,4 +16,4 @@ jobs:
       - name: Build the Docker image
         run: docker build -t josegarcao/docker-react -f Dockerfile.dev .
       - name: Run test suite
-        run: docker run josegarcao/docker-react npm run test -- --coverage
+        run: docker run -e CI=true josegarcao/docker-react npm run test -- --coverage

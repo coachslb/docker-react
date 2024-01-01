@@ -31,7 +31,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-north-1'
 
-      - name: Checkout code
+       - name: Checkout code
         uses: actions/checkout@v3
 
       # Additional steps for building and preparing your application files could go here
@@ -42,8 +42,8 @@ jobs:
 
       - name: Create Application Version
         run: |
-          aws elasticbeanstalk create-application-version --application-name docker-react --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-391987539274"
+          aws elasticbeanstalk create-application-version --application-name docker-react --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-391987539274",S3Key="docker-react" --region eu-north-1
 
       - name: Update Environment
         run: |
-          aws elasticbeanstalk update-environment --application-name docker-react --environment-name Docker-react-env --version-label $GITHUB_SHA
+          aws elasticbeanstalk update-environment --application-name docker-react --environment-name Docker-react-env --version-label $GITHUB_SHA --region eu-north-1

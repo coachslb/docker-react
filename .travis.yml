@@ -4,3 +4,16 @@ services:
 
 before_install:
   - docker build -t josegarcao/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run josegarcao/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: 'eu-north-1'
+  app: 'docker-react'
+  env: 'Docker-react-env'
+  bucket_name: 'elasticbeanstalk-eu-north-1-391987539274'
+  bucket_path: 'docker-react'
+  on:
+    branch: main

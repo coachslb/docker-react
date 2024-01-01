@@ -40,6 +40,10 @@ jobs:
         run: |
           aws s3 sync . s3://elasticbeanstalk-eu-north-1-391987539274/docker-react --delete
 
+      - name: Create Application Version
+        run: |
+          aws elasticbeanstalk create-application-version --application-name docker-react --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-391987539274"
+
       - name: Update Environment
         run: |
           aws elasticbeanstalk update-environment --application-name docker-react --environment-name Docker-react-env --version-label $GITHUB_SHA

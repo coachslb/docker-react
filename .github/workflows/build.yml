@@ -31,7 +31,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-north-1'
 
-      - name: Deploy to Elastic Beanstalk
+       - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Additional steps for building and preparing your application files could go here
+
+      - name: Upload to S3
+        run: |
+          aws s3 sync . s3://elasticbeanstalk-eu-north-1-391987539274/docker-react --delete
+
+      - name: Create Application Version
         run: |
           aws elasticbeanstalk create-application-version --application-name docker-react --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-eu-north-1-391987539274",S3Key="docker-react"
+
+      - name: Update Environment
+        run: |
           aws elasticbeanstalk update-environment --application-name docker-react --environment-name Docker-react-env --version-label $GITHUB_SHA
